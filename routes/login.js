@@ -3,11 +3,12 @@ const mongoose= require("../Database/mongoose.js");
 const Trader= require("../Database/Trader");
 const session = require("express-session");
 const passport =require("passport");
+require('dotenv').config({path : "../.env"}) ;
 
 const router = express.Router();
 
 router.use(session({
-    secret: 'This app is for stocks trading mainly paper trading',
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false
 }));
@@ -45,6 +46,12 @@ router.post("/login" ,(req ,res)=>{
             });
         }
     });
+})
+router.get("/logout" ,function(req,res){
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        res.redirect('/');
+      });
 })
 
 module.exports = router;

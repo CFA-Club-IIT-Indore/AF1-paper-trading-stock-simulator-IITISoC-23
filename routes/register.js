@@ -7,7 +7,7 @@ const passport =require("passport");
 const router = express.Router();
 
 router.use(session({
-    secret: 'This app is for stocks trading mainly paper trading',
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false
 }));
