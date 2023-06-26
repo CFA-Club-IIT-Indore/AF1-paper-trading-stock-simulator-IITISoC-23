@@ -18,6 +18,7 @@ router.use(passport.session());
 router.get("/portfolio" , (req ,res)=>{
     if(req.isAuthenticated()){
         res.render("portfolio");
+        console.log(req.user);
     }else{
         res.redirect("/login");
     }

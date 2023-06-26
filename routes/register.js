@@ -32,7 +32,7 @@ router.get("/register" , (req ,res )=>{
 })
 router.post("/register" ,(req,res)=>{
 
-    Trader.register({username: req.body.username } , req.body.password , (err,user)=>{
+    Trader.register({username: req.body.username ,email: req.body.email ,stocks_held : {nse : [{stock_type : "nse" , symbol :"INFY"}] , bse : [{stock_type:"bse" , symbol : "Reliance" }]}} , req.body.password , (err,user)=>{
         if(err){
             console.log(err);
             res.redirect("/register");

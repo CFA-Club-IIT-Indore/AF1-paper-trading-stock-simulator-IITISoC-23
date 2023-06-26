@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.nifty {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.nifty_data{
+    display: inline-block;
+}
+
+.nse_stock {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

@@ -3,14 +3,9 @@ const session = require("express-session");
 const passport =require("passport");
 const passportLocalMongoose =require("passport-local-mongoose");
 const findOrCreate = require("mongoose-findorcreate");
+const userDetails = require("./trader_details");
 
-const userSchema = new mongoose.Schema({
-    username : String ,
-    password : String ,
-    googleId :String,
-    githubId : String,
-    facebookId : String,
-})
+const userSchema = new mongoose.Schema(userDetails);
 
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
