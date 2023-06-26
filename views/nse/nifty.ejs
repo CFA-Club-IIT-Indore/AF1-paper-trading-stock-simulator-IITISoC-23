@@ -1,0 +1,12 @@
+<div class="nifty">
+<% nifty_data.map(function(nifty_obj){ %>
+    <% if(!nifty_obj.NSECode) return null %>
+    <div class="nifty_data mx-4 my-4">
+        <h2 class="text-lg"><%= nifty_obj.NSECode %></h2>
+        <h6>Today Open : <%= nifty_obj.TodayOpen %></h6>
+        <h6>Today High : <%= nifty_obj.TodayHigh %></h6>
+        <h6>Today Low : <%= nifty_obj.TodayLow %></h6>
+        <h6>Today Close : <%= nifty_obj.TodayClose %></h6>
+    </div>
+    <% }) %>
+</div>
