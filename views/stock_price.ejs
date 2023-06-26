@@ -1,0 +1,15 @@
+<%- include("partials/header.html")%>
+<h1>Stock - Prices</h1>
+<% for(var i=0; i<stocks.length; i++){%>
+<h1><%=stocks[i].name%></h1>
+<p>Current price: <%=price[i].c%></p>
+<p>Current Growth percent: <%=price[i].dp%></p>
+<p>Change: <%=price[i].d%></p>
+<p>High price of the day: <%=price[i].h%></p>
+<p>Low price of the day: <%=price[i].l%></p>
+<p>Open price : <%=price[i].o%></p>
+<p>Previous Close price : <%=price[i].o%></p>
+<%var add_stock="/stock/"+stocks[i].name+"/"+i%>
+<a href="<%=add_stock%>"><button id=<%=stocks[i]%>>Buy</button></a>
+<%}%>
+<%- include("partials/footer.html")%>
