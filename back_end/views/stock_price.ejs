@@ -1,20 +1,9 @@
 <%- include("partials/header.html")%>
 <h1>Stock - Prices</h1>
 <% for(var i=0; i<stocks.length; i++){%>
-    <h1><%=stocks[i]%></h1>
-    <div>
-        <h3>$ <%=price[i].stock_price%></h3>
-        <%if( price[i].growth>0 ){%>
-            <h3 color="green"><%=price[i].growth%> %</h3>
-            <%}%>
-        <%if( price[i].growth<0 ){%>
-            <h3 color="red"><%=price[i].growth%> %</h3>
-            <%}%>
-        <%if(price[i].growth===0){%>
-            <h3 color="grey"><%=price[i].growth%> %</h3>
-            <%}%>
-            <%var add_stock="/stock/"+stocks[i]+"/"+i%>
-            <a href="<%=add_stock%>"><button id=<%=stocks[i]%>>Buy</button></a>
-    </div>
+<h1><%=stocks[i].name%></h1>
+<p>Current price: <%=price[i].c%></p>
+<p>Current Growth percent: <%=price[i].dp%></p>
+    
 <%}%>
 <%- include("partials/footer.html")%>
