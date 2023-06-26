@@ -66,6 +66,8 @@ route.post("/stock", function (req, res) {
       console.log(data);
     });
   }
+
+  
   // ------------------------------------------------------------------------------------
   setTimeout(function () {
     console.log(stock_prices);
