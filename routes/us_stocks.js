@@ -1,7 +1,7 @@
 const express = require("express");
 const _ = require("lodash");
 const bodyParser = require("body-parser");
-const route = express();
+const route = express.Router();
 const finnhub = require("finnhub");
 const api_key = finnhub.ApiClient.instance.authentications["api_key"];
 api_key.apiKey = "ci9hic1r01qtqvvf2510ci9hic1r01qtqvvf251g"; // Replace this
@@ -48,12 +48,11 @@ stock_prices.fill({});
 var purse_amount = 1000000;
 
 // ------------------------------------------------------------------------------------
-route.use(bodyParser.urlencoded({ extended: true }));
-route.set("view engine", "ejs");
-route.use(express.static("public"));
-route.get("/", function (req, res) {
-  res.sendFile(__dirname + "/views/get_stock.html");
-});
+// route.use(bodyParser.urlencoded({ extended: true }));
+// route.use(express.static("public"));
+// route.get("/", function (req, res) {
+//   res.sendFile(__dirname + "/views/get_stock.html");
+// });
 // ------------------------------------------------------------------------------------
 
 route.post("/stock", function (req, res) {
@@ -75,7 +74,7 @@ route.post("/stock", function (req, res) {
       stocks: stock_name,
       price: stock_prices,
     });
-  }, 2000);
+  }, 10000);
   // ------------------------------------------------------------------------------------
 });
 
@@ -113,7 +112,5 @@ route.post("/buy", function (req, res) {
 // ------------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------------
-route.listen(3000, function () {
-  console.log("Server started at port 3000");
-});
+module.exports =route;
 // ------------------------------------------------------------------------------------

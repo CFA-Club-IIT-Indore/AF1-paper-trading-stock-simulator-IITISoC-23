@@ -1,4 +1,4 @@
-<%- include("partials/header.html")%>
+<%- include("partials/header")%>
 <h1>Stock - Prices</h1>
 <% for(var i=0; i<stocks.length; i++){%>
 <h1><%=stocks[i].name%></h1>
@@ -12,4 +12,4 @@
 <%var add_stock="/stock/"+stocks[i].name+"/"+i%>
 <a href="<%=add_stock%>"><button id=<%=stocks[i]%>>Buy</button></a>
 <%}%>
-<%- include("partials/footer.html")%>
+<%- include("partials/footer")%>

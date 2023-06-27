@@ -1,7 +1,9 @@
 <div class="nse_stock">
     <% stock_data.map(function(stock_obj){ %>
         <div class=" mx-4 my-4">
-            <h2 class="text-lg text-yellow-300"><%= stock_obj.NSECode %></h2>
+            <h1 class="text-lg text-center"><%= stock_obj.CompanyName %></h1>
+            <h2 class="text-md text-red-950">Market Capital<%= stock_obj.MarketCap %></h2>
+            <h2 class="text-lg"><%= stock_obj.NSECode %></h2>
             <h6>Today Open : <%= stock_obj.TodayOpen %></h6>
             <h6>Today High : <%= stock_obj.TodayHigh %></h6>
             <h6>Today Low : <%= stock_obj.TodayLow %></h6>
