@@ -1,15 +1,31 @@
 <%- include("partials/header")%>
-<h1>Stock - Prices</h1>
-<% for(var i=0; i<stocks.length; i++){%>
-<h1><%=stocks[i].name%></h1>
-<p>Current price: <%=price[i].c%></p>
-<p>Current Growth percent: <%=price[i].dp%></p>
-<p>Change: <%=price[i].d%></p>
-<p>High price of the day: <%=price[i].h%></p>
-<p>Low price of the day: <%=price[i].l%></p>
-<p>Open price : <%=price[i].o%></p>
-<p>Previous Close price : <%=price[i].o%></p>
-<%var add_stock="/stock/"+stocks[i].name+"/"+i%>
-<a href="<%=add_stock%>"><button id=<%=stocks[i]%>>Buy</button></a>
-<%}%>
+<h1 class="text-4xl">US Stocks</h1>
+    <% for(var i=0; i<stocks.length; i++){%>
+        <h1><%=stocks[i].name%></h1>
+        <p>Current price: <%=price[i].c%></p>
+        <p>Current Growth percent: <%=price[i].dp%></p>
+        <p>Change: <%=price[i].d%></p>
+        <p>High price of the day: <%=price[i].h%></p>
+        <p>Low price of the day: <%=price[i].l%></p>
+        <p>Open price : <%=price[i].o%></p>
+        <p>Previous Close price : <%=price[i].o%></p>
+    <%var add_stock="/stock/"+stocks[i].name+"/"+i%>
+    <a href="<%=add_stock%>"><button id=<%=stocks[i]%>>Buy</button></a>
+    <form action="<%=add_stock%>" method="post"></form>
+    <%}%>
+    <h1 class="text-4xl">NSE Stocks</h1>
+    <% stock_data.map(function(stock_obj){ %>
+        <div class=" mx-4 my-4">
+            <p>Current price: <%= stock_obj.ltp %> ></p>
+            <p>Current Growth percent: <%= stock_obj.dayChangePerc %></p>
+            <p>Change: <%= stock_obj.dayChange %></p>
+            <h2 class="text-lg"><%= stock_obj.NSECode %></h2>
+            <h6>Open price : <%= stock_obj.TodayOpen %></h6>
+            <h6>High price of the day: <%= stock_obj.TodayHigh %></h6>
+            <h6>Low price of the day: <%= stock_obj.TodayLow %></h6>
+            <h6>Previous Close price : <%= stock_obj.TodayClose %></h6>
+            <% var add_stock = "/stock/" + stock_obj.NSECode %>
+            <a href="<%= add_stock %>"><button id= "<%= stock_obj.NSECode %>">Buy</button></a>
+        </div>
+        <% }) %>
 <%- include("partials/footer")%>

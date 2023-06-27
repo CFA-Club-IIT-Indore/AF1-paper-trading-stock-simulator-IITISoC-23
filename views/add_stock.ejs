@@ -4,7 +4,10 @@
 <span><%=price%></span>
 <h2>Remaining Amount:<%=purse%></h2>
 <form action="/buy" method="post">
+    <input type="hidden" name = "company_name" value = "<%=company_name%>">
+    <input type="hidden" name = "price" value = <%=price%>>
+    <input type="hidden" name = "purse" value = <%=purse%>>
     <input type="number" name="numberOfStocks">
-    <button name="<%=stock_code%>">Buy!</button>
+    <button name="<%=stock_code%>" >Buy!</button>
 </form>
 <%- include ("partials/footer") %>

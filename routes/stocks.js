@@ -1,5 +1,6 @@
 const express = require("express");
 const _ = require("lodash");
+const axios = require("axios");
 const bodyParser = require("body-parser");
 const route = express.Router();
 const finnhub = require("finnhub");
@@ -55,14 +56,44 @@ var purse_amount = 1000000;
 // });
 // ------------------------------------------------------------------------------------
 
+const NSEsymbols1 = [
+  'ADANIPORTS','ASIANPAINT','AXISBANK','APOLLOHOSP' ,'ADANIENT', 'BAJAJ-AUTO', 'BAJFINANCE', 'BAJAJFINSV',       'BPCL', 'BHARTIARTL',      'CIPLA', 
+   "COALINDIA", 'DIVISLAB' ,   "DRREDDY",  'EICHERMOT',    'GRASIM',    "HCLTECH", 'HDFC' ,  "HDFCBANK", "HEROMOTOCO",   'HINDALCO', 
+   'HINDUNILVR',       'HDFCLIFE',  'INFY' ,   'ITC',  'ICICIBANK', 'INDUSINDBK',   'JSWSTEEL',  
+  ]
+  const NSEsymbols2 =[ 'KOTAKBANK',         'LT',     'MARUTI', 'NESTLEIND' ,     'NTPC',       'ONGC',  'POWERGRID',   'RELIANCE',       'SBIN',  'SBILIFE',
+  'TCS', 'TATAMOTORS', 'TATACONSUM' , 'TATASTEEL',      'TECHM',      'TITAN',        'UPL', 'ULTRACEMCO',     
+    'WIPRO' ]
+  const stocks_string1 = NSEsymbols1.join(',');
+  const stocks_string2 = NSEsymbols2.join(',');
+
 route.post("/stock", async function (req, res) {
   stock_prices = await Promise.all(stock_name.map(getStockPrice));
 
   console.log(stock_prices);
+
+  async function getData(){
+  var stock_dataj = await axios.get(`https://api.stockmarketapi.in/api/v1/getprices?token=${process.env.NSE_API_KEY}&nsecode=${stocks_string1}`);
+  stock_dataj =stock_dataj.data.data;
+  var stocks =[];
+  for(const [key ,value] of Object.entries(stock_dataj)){
+      stocks.push(value);
+  }
+  stock_dataj = await axios.get(`https://api.stockmarketapi.in/api/v1/getprices?token=${process.env.NSE_API_KEY}&nsecode=${stocks_string2}`);
+  stock_dataj =stock_dataj.data.data;
+  for(const [key ,value] of Object.entries(stock_dataj)){
+      stocks.push(value);
+  }
+  console.log(stocks);
   res.render("stock_price.ejs", {
     stocks: stock_name,
     price: stock_prices,
+    stock_data : stocks
   });
+}
+getData();
+
+  
 });
 
 async function getStockPrice(stock) {
@@ -94,16 +125,19 @@ route.get("/stock/:word/:list_number", function (req, res) {
 
 // ------------------------------------------------------------------------------------
 route.post("/buy", function (req, res) {
-  var quantity = req.body.numberOfStocks;
+  console.log(req.body);
+  var quantity = parseFloat(req.body.numberOfStocks);
+  purse_amount = parseFloat(req.body.purse)
+  var price = parseFloat(req.body.price)
   console.log(quantity);
-  if (purse_amount >= quantity * stock_prices[to_buy_stock].c) {
-    purse_amount = purse_amount - quantity * stock_prices[to_buy_stock].c;
+  if (purse_amount >= quantity * price) {
+    purse_amount = purse_amount - quantity * price;
     // mongoose add data
     res.render("success.ejs", {
-      company: stock_name[to_buy_stock].name,
+      company: req.body.company_name,
       shares: quantity,
       amt: purse_amount,
-      price: stock_prices[to_buy_stock].c,
+      price: price,
     });
   } else {
     res.render("failure.ejs", {});
