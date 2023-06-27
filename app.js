@@ -11,6 +11,7 @@ const googleAuthRouter = require("./routes/google_auth");
 const githubAuthRouter = require("./routes/github_auth");
 const facebookAuthRouter = require("./routes/facebook_auth");
 const nse_niftyRouter = require("./routes/NSE/nifty");
+const newsRouter = require("./routes/news");
 
 const app = express();
 const PORT = 8000;
@@ -25,6 +26,7 @@ app.use("/" , googleAuthRouter);
 app.use("/" , githubAuthRouter);
 app.use("/" , facebookAuthRouter);
 app.use("/" , nse_niftyRouter);
+app.use("/", newsRouter)
 
 app.get("/" , (req ,res)=>{
     res.render("home");
