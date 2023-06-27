@@ -55,28 +55,28 @@ var purse_amount = 1000000;
 // });
 // ------------------------------------------------------------------------------------
 
-route.post("/stock", function (req, res) {
-  //  clearing past Stock prices before UPDATING
-  stock_prices.length = [];
-  for (var i = 0; i < stock_name.length; i++) {
-    finnhubClient.quote(stock_name[i].symbol, (error, data, response) => {
-      stock_prices.push(data);
-      // console.log(String(stock_name[i].symbol));
-      console.log(data);
-    });
-  }
+route.post("/stock", async function (req, res) {
+  stock_prices = await Promise.all(stock_name.map(getStockPrice));
 
-  
-  // ------------------------------------------------------------------------------------
-  setTimeout(function () {
-    console.log(stock_prices);
-    res.render("stock_price.ejs", {
-      stocks: stock_name,
-      price: stock_prices,
-    });
-  }, 10000);
-  // ------------------------------------------------------------------------------------
+  console.log(stock_prices);
+  res.render("stock_price.ejs", {
+    stocks: stock_name,
+    price: stock_prices,
+  });
 });
+
+async function getStockPrice(stock) {
+  return new Promise((resolve, reject) => {
+    finnhubClient.quote(stock.symbol, (error, data, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}
+
 
 var to_buy_stock;
 // ------------------------------------------------------------------------------------
