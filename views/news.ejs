@@ -1,49 +1,54 @@
 <%- include('partials/header') %>
-<div class="container text-center">
-    <div class="row my-3 text-center"  id = "content">
-        
-    <div class="col-md-4 my-3">
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
+<div class="container">
+    <div class="row my-3"  id = "content">
     </div>
-    </div>
-    </div>
-    <div class="d-flex justify-content-between">
-        <button type="button" id="pre" class="btn btn-primary">Previous</button>
-        <button type="button" id="next" class="btn btn-primary">Next</button>
-    </div>
+    <!-- <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div> -->
 </div>
 <script>
-  // let query = window.location.search.split('?')[1].split('&')[0].split('=')[1];
-  const fetchNews= async()=>{
-    let url ="https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=fcf421dd3a274fb9aa44012a6056280b&q=stocks";
-    let a = await fetch(url);
-    let r= await a.json();
-    let str ="";
-    for(let item of r.articles){
-      str = str +`
-      <div class="col-md-4 my-3">
-      <div class="card">
-        <img class="card-img-top" src="${item.urlToImage}" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">${item.title}</h5>
-          <p class="card-text">${item.description}</p>
-          <a href="${item.url}" class="btn btn-primary">Read More</a>
-        </div>
-    </div>
-    </div>
-      `
-    }
-    content.innerHTML = str;
+let page = 1;
+let str ="";
+const fetchNews= async(page)=>{
+  let url =`https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=fcf421dd3a274fb9aa44012a6056280b&page=${page}&pageSize=5`;
+  let a = await fetch(url);
+  let r= await a.json();
+  
+  for(let item of r.articles){
+    let b = new Date(item.publishedAt).toGMTString();
+    let c= item.urlToImage || "https://akm-img-a-in.tosshub.com/businesstoday/images/story/202306/shutterstock_1747643729-750x406_2-sixteen_nine.jpg?size=948:533" ;
+    str = str + `
+    <div class="col-md-4 my-3">
+    <div class="card">
+      <img class="card-img-top" src=${c} alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">${item.title}</h5>
+        <p class="card-text">${item.description}...</p>
+        <p class="card-text"><small class="text-muted">By ${item.author} on ${b}</small></p>
+        <a target = _blank href="${item.url}" class="btn btn-primary">Read More</a>
+      </div>
+  </div>
+  </div>
+    `
   }
-  fetchNews();
-
+  content.innerHTML = str;
+}
+fetchNews();
+const showNews = ()=>{
+  setTimeout(()=>{
+    page++;
+    fetchNews(page);
+  },300);
+};
+window.addEventListener('scroll',()=>{
+  const {scrollHeight, scrollTop, clientHeight} = document.documentElement;
+  if(scrollTop + clientHeight >= scrollHeight){
+    // console.log("bottom");
+    showNews();
+  }
+})
 </script>
+
 
 
 <%- include('partials/footer') %>
