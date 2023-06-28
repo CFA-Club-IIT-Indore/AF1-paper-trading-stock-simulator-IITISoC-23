@@ -5,7 +5,7 @@ const userDetails = {
     username : {
         type : String ,
         unique : true ,
-        required : [true , "Enter the username"]
+        // required : [true , "Enter the username"]
     } ,
     password : String ,
     mobile_no : String ,

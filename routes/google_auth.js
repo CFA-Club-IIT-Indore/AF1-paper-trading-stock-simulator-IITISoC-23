@@ -28,7 +28,8 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:8000/auth/google/portfolio"
   },
   function(accessToken, refreshToken, profile, cb) {
-    Trader.findOrCreate({ googleId: profile.id }, function (err, user) {
+    console.log(profile);
+    Trader.findOrCreate({ googleId: profile.id , username:`${profile.name.givenName}${profile.id[0]}7${profile.id[2]}`}, function (err, user) {
       return cb(err, user);
     });
   }

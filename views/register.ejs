@@ -1,5 +1,46 @@
-<%- include('partials/header') %>
-  <h1>Sign Up</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- login -->
+    <link rel="stylesheet" href="home_register.css">
+    <!-- <script src="C:\Users\HP\Desktop\iitisoc webs\projectjs.js"></script> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<div class="stoxm">
+  <div class="main">  	
+  <input type="checkbox" id="chk" aria-hidden="true">
+
+    <div class="signup">
+      <form action="/register" method="POST">
+        <label for="chk" aria-hidden="true">Sign up</label>
+        <input type="text" name="txt" placeholder="User name" required="" name="username">
+        <input type="email" name="email" placeholder="Email" required="" name="email">
+        <input type="password" name="pswd" placeholder="Password" required="" name="password">
+        <button>Sign up</button>
+      </form>
+    </div>
+
+    <div class="login">
+      <form>
+        <label for="chk" aria-hidden="true">Login</label>
+        <input type="email" name="email" placeholder="Email" required="" name="username">
+        <input type="password" name="pswd" placeholder="Password" required="" name="password">
+        <button>Login</button>
+      </form>
+    </div>
+</div>
+   <div class="imgs">
+              <img src="C:\Users\HP\Downloads\stocksBuy.278fdd23.svg"
+               alt="">
+          </div>
+</div>
+
+
+  <!-- <h1>Sign Up</h1>
   <form action="/register" method="POST">
     <div class="form-group">
       <label for="email">Email</label>
@@ -12,12 +53,12 @@
       <input type="password" class="form-control" name="password">
     </div>
     <button type="submit" class="btn btn-dark">Login</button>
-  </form>
+  </form> -->
 
 
   <div class="col-sm-4">
     <div class="card">
-      <div class="card-body">
+      <div class="card-body " style="background-color: white; padding: 10px;">
         <a class="btn btn-block" href="/auth/google" role="button">
           <i class="fab fa-google"></i>
           Sign In with Google
@@ -27,7 +68,7 @@
   </div>
   <div class="col-sm-4">
     <div class="card">
-      <div class="card-body">
+      <div class="card-body " style="background-color: white; padding: 10px;">
         <a class="btn btn-block" href="/auth/github" role="button">
           <i class="fab fa-google"></i>
           Sign In with Github
@@ -38,7 +79,7 @@
 
   <div class="col-sm-4">
     <div class="card">
-      <div class="card-body">
+      <div class="card-body " style="background-color: white; padding: 10px;">
         <a class="btn btn-block" href="/auth/facebook" role="button">
           <i class="fab fa-google"></i>
           Sign In with Facebook
