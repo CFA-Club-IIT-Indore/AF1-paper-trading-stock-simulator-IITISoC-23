@@ -14,6 +14,8 @@ const nse_niftyRouter = require("./routes/NSE/nifty");
 const newsRouter = require("./routes/news");
 const us_stocksRouter = require("./routes/stocks");
 const add_stocksRouter = require("./routes/add_stock");
+const buy_stockRouter = require("./routes/buy_stock");
+const sell_stockRouter = require("./routes/sell_stock");
 
 const app = express();
 const PORT = 8000;
@@ -31,6 +33,8 @@ app.use("/" , nse_niftyRouter);
 app.use("/", newsRouter)
 app.use("/", us_stocksRouter)
 app.use("/", add_stocksRouter)
+app.use("/", buy_stockRouter)
+app.use("/", sell_stockRouter)
 
 app.get("/" , (req ,res)=>{
     res.render("home");

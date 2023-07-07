@@ -18,6 +18,7 @@ router.get("/stock/:nse_code" , (req ,res) =>{
             price: Number(data.ltp),
             stock_code: req.params.nse_code ,
             purse: purse_amount,
+            stock_type :"nse"
         }  )
     }
     getData();

@@ -9,9 +9,10 @@
         <p>Low price of the day: <%=price[i].l%></p>
         <p>Open price : <%=price[i].o%></p>
         <p>Previous Close price : <%=price[i].o%></p>
-    <%var add_stock="/stock/"+stocks[i].name+"/"+i%>
+    <%var add_stock="/stock/"+stocks[i].symbol+"/"+i%>
     <a href="<%=add_stock%>"><button id=<%=stocks[i]%>>Buy</button></a>
-    <form action="<%=add_stock%>" method="post"></form>
+    <form action="<%=add_stock%>" method="post">
+    </form>
     <%}%>
     <h1 class="text-4xl">NSE Stocks</h1>
     <% stock_data.map(function(stock_obj){ %>

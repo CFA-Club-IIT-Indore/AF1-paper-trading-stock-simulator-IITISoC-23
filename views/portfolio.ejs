@@ -1,6 +1,34 @@
 <%- include('partials/header') %>
  <h1>You are logged in</h1>
  <a class="btn btn-light btn-lg" href="/logout" role="button">Log Out</a>
+ <h1>Amount reamaining : <%= amount%></h1>
+ <h1>Amount invested : <%= amount_invested%></h1>
+ <h1>NSE Stocks</h1>
+ <% stocks_held.nse.map((obj)=>{%>
+    <h2><%= obj.symbol %></h2>
+    <p>quantity : <%= obj.quantity %></p>
+    <p>price : <%= obj.price %></p>
+    <p>money invested : <%= obj.money_invested %></p>
+    <form action="/sell_stock" method="post">
+        <input type="hidden" name="code" value ="<%= obj.symbol %>" > 
+        <input type="hidden" name="stock_type" value="nse">
+        <input type="number" name="quantity" max="<%= obj.quantity %>" style ="border: 2px solid black;" min="0"> 
+        <button style="background-color: aquamarine;">Sell</button>
+    </form>
+    <%})%>
+ <h1>US Stocks</h1>
+ <% stocks_held.us_stocks.map((obj)=>{%>
+    <h2><%= obj.symbol %></h2>
+    <p>quantity : <%= obj.quantity %></p>
+    <p>price : <%= obj.price %></p>
+    <p>money invested : <%= obj.money_invested %></p>
+    <form action="/sell_stock" method="post">
+        <input type="hidden" name="code" value ="<%= obj.symbol %>" > 
+        <input type="hidden" name="stock_type" value="us">
+        <input type="number" name="quantity" max="<%= obj.quantity %>" style ="border: 2px solid black;" min="0"> 
+        <button style="background-color: aquamarine;">Sell</button>
+    </form>
+    <%})%>
  <form action="/stock" method="post">
     <button>Get Stocks</button>
 </form>

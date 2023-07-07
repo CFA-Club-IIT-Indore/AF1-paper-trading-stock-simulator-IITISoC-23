@@ -8,6 +8,8 @@ const stock_data = {
     symbol :String ,
     action : String ,
     quantity : mongoose.Decimal128,
+    date : String,
+    time : String,
     money_invested :mongoose.Decimal128,
     price : mongoose.Decimal128
 }

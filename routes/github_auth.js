@@ -28,7 +28,8 @@ passport.serializeUser(function(user, cb) {
     callbackURL: "http://localhost:8000/auth/github/portfolio"
   },
   function(accessToken, refreshToken, profile, done) {
-    Trader.findOrCreate({ githubId: profile.id }, function (err, user) {
+    // console.log(profile);
+    Trader.findOrCreate({ githubId: profile.id , username : `${profile._json.login}${profile.id[0]}${profile.id[3]}${profile.id[5]}` }, function (err, user) {
       return done(err, user);
     });
   }

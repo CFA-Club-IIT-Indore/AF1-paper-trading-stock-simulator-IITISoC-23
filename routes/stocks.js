@@ -88,7 +88,7 @@ route.post("/stock", async function (req, res) {
   res.render("stock_price.ejs", {
     stocks: stock_name,
     price: stock_prices,
-    stock_data : stocks
+    stock_data : stocks,
   });
 }
 getData();
@@ -104,8 +104,8 @@ async function getStockPrice(stock) {
       } else {
         resolve(data);
       }
-    });
-  });
+    });
+  });
 }
 
 
@@ -119,30 +119,12 @@ route.get("/stock/:word/:list_number", function (req, res) {
     price: Number(stock_prices[parseInt(Number(req.params.list_number))].c),
     stock_code: parseInt(Number(req.params.list_number)),
     purse: purse_amount,
+    stock_type : "us"
   });
 });
 // ------------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------------
-route.post("/buy", function (req, res) {
-  console.log(req.body);
-  var quantity = parseFloat(req.body.numberOfStocks);
-  purse_amount = parseFloat(req.body.purse)
-  var price = parseFloat(req.body.price)
-  console.log(quantity);
-  if (purse_amount >= quantity * price) {
-    purse_amount = purse_amount - quantity * price;
-    // mongoose add data
-    res.render("success.ejs", {
-      company: req.body.company_name,
-      shares: quantity,
-      amt: purse_amount,
-      price: price,
-    });
-  } else {
-    res.render("failure.ejs", {});
-  }
-});
 // ------------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------------

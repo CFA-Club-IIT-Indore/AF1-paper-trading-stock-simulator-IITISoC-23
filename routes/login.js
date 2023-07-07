@@ -32,6 +32,7 @@ router.get("/login" , (req ,res)=>{
     res.render("login");
 })
 router.post("/login" ,(req ,res)=>{
+    console.log(req.body)
     const trader = new Trader({
         username : req.body.username,
         password: req.body.password

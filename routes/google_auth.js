@@ -29,7 +29,7 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, cb) {
     console.log(profile);
-    Trader.findOrCreate({ googleId: profile.id , username:`${profile.name.givenName}${profile.id[0]}7${profile.id[2]}`}, function (err, user) {
+    Trader.findOrCreate({ googleId: profile.id , username : `${profile.name.givenName}${profile.id[0]}7${profile.id[2]}`}, function (err, user) {
       return cb(err, user);
     });
   }
