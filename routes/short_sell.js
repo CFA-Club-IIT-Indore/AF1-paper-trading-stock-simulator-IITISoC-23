@@ -22,7 +22,7 @@ passport.deserializeUser(function(user, cb) {
 
 
 
-route.post("/buy", function (req, res) {
+route.post("/short_sell", function (req, res) {
     
     var arr ,his;
     var purse_amount;
@@ -33,19 +33,18 @@ route.post("/buy", function (req, res) {
         var stop_loss1;
         var stop_profit1;
         if(!req.body.stop_loss1){
-            stop_loss1 = -1;
+            stop_loss1 = 100000000;
         }else{
-            stop_loss1 = parseFloat(req.body.price) - parseFloat(req.body.stop_loss1);
+            stop_loss1 = parseFloat(req.body.price) + parseFloat(req.body.stop_loss1);
         }
         if(!req.body.stop_profit1){
-            stop_profit1 = 1000000000;
+            stop_profit1 = -1;
         }else{
-            stop_profit1 = parseFloat(req.body.price) + parseFloat(req.body.stop_profit1);
+            stop_profit1 = parseFloat(req.body.price) - parseFloat(req.body.stop_profit1);
         }
 
-        // console.log(req.body , stop_loss1 ,stop_profit1);
-        if(!data[0].stocks_held){
-            data[0].stocks_held = {us_stocks:[] ,bse : [] ,nse :[]};
+        if(!data[0].stocks_sold_adv){
+            data[0].stocks_sold_adv = {us_stocks:[] ,bse : [] ,nse :[]};
             console.log(data[0]);
         }
         if(!data[0].history){
@@ -55,15 +54,15 @@ route.post("/buy", function (req, res) {
 
 
         if(req.body.stock_type === "us"){
-            arr = data[0].stocks_held.us_stocks;
+            arr = data[0].stocks_sold_adv.us_stocks;
             his = data[0].history.us_stocks;
             purse_amount = parseFloat(data[0].amount.toString());
         }else if(req.body.stock_type === "nse"){
-            arr = data[0].stocks_held.nse;
+            arr = data[0].stocks_sold_adv.nse;
             his = data[0].history.nse;
             purse_amount = parseFloat(data[0].amount.toString());
         }else{
-            arr = data[0].stocks_held.bse;
+            arr = data[0].stocks_sold_adv.bse;
             his = data[0].history.bse;
             purse_amount = parseFloat(data[0].amount.toString());
         }
@@ -89,7 +88,7 @@ route.post("/buy", function (req, res) {
                 arr.push({
                     stock_type : req.body.stock_type,
                     symbol : req.body.company_name ,
-                    action : "buy" ,
+                    action : "short sell" ,
                     // date : date,
                     // time : time,
                     quantity : quant,
@@ -101,7 +100,7 @@ route.post("/buy", function (req, res) {
                 his.push({
                     stock_type : req.body.stock_type,
                     symbol : req.body.company_name ,
-                    action : "buy" ,
+                    action : "short sell" ,
                     date : date,
                     time : time,
                     quantity : quant,
@@ -117,23 +116,23 @@ route.post("/buy", function (req, res) {
 
             const tot_invest = parseFloat(data[0].amount_invested.toString()) + quant*price;
             if(req.body.stock_type === "us"){
-                data[0].stocks_held.us_stocks = arr;
+                data[0].stocks_sold_adv.us_stocks = arr;
                 data[0].history.us_stocks = his;
-                Trader.updateOne({username : req.user.username} , {stocks_held : data[0].stocks_held ,amount : purse_amount , amount_invested : tot_invest , history : data[0].history})
+                Trader.updateOne({username : req.user.username} , {stocks_sold_adv : data[0].stocks_sold_adv ,amount : purse_amount , amount_invested : tot_invest , history : data[0].history})
                 .then((response)=>{
                     console.log(response.acknowledged);
                 })
             }else if(req.body.stock_type === "nse"){
-                data[0].stocks_held.nse = arr;
+                data[0].stocks_sold_adv.nse = arr;
                 data[0].history.nse = his;
-                Trader.updateOne({username : req.user.username} , {stocks_held : data[0].stocks_held ,amount : purse_amount , amount_invested : tot_invest , history : data[0].history})
+                Trader.updateOne({username : req.user.username} , {stocks_sold_adv : data[0].stocks_sold_adv ,amount : purse_amount , amount_invested : tot_invest , history : data[0].history})
                 .then((response)=>{
                     console.log(response.acknowledged);
                 })
             }else{
-                data[0].stocks_held.bse = arr;
+                data[0].stocks_sold_adv.bse = arr;
                 data[0].history.bse = his;
-                Trader.updateOne({username : req.user.username} , {stocks_held : data[0].stocks_held  ,amount : purse_amount , amount_invested : tot_invest , history : data[0].history})
+                Trader.updateOne({username : req.user.username} , {stocks_sold_adv : data[0].stocks_sold_adv  ,amount : purse_amount , amount_invested : tot_invest , history : data[0].history})
                 .then((response)=>{
                     console.log(response.acknowledged);
                 })
@@ -142,7 +141,7 @@ route.post("/buy", function (req, res) {
 
             
           // mongoose add data
-          res.render("success.ejs", {
+          res.render("short_sell_success.ejs", {
             company: req.body.company_name,
             shares: quant,
             amt: purse_amount,

@@ -23,9 +23,11 @@ router.get("/portfolio" , (req ,res)=>{
         .then((data)=>{
             // console.log(data[0].stocks_held);
             if(!data[0].stocks_held){res.render("portfolio" , {stocks_held :{nse :[] ,us_stocks:[]} ,amount : parseFloat(data[0].amount.toString()),
+            stocks_sold_adv :{nse :[] ,us_stocks:[]},
             amount_invested : parseFloat(data[0].amount_invested.toString())})}
             res.render("portfolio" ,
              {  
+                stocks_sold_adv : data[0].stocks_sold_adv,
                 stocks_held : data[0].stocks_held , 
                 amount : parseFloat(data[0].amount.toString()),
                 amount_invested : parseFloat(data[0].amount_invested.toString())

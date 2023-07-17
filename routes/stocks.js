@@ -7,7 +7,7 @@ const finnhub = require("finnhub");
 const api_key = finnhub.ApiClient.instance.authentications["api_key"];
 api_key.apiKey = "ci9hic1r01qtqvvf2510ci9hic1r01qtqvvf251g"; // Replace this
 const finnhubClient = new finnhub.DefaultApi();
-
+var ex_rate;
 // ------------------------------------------------------------------------------------
 // currently 30 Major stocks
 
@@ -70,7 +70,10 @@ const NSEsymbols1 = [
 route.post("/stock", async function (req, res) {
   stock_prices = await Promise.all(stock_name.map(getStockPrice));
 
-  console.log(stock_prices);
+  // console.log(stock_prices);
+  ex_rate = await exchangeRate();
+  console.log(ex_rate.data.exchange_rate);
+  ex_rate = ex_rate.data.exchange_rate;
 
   async function getData(){
   var stock_dataj = await axios.get(`https://api.stockmarketapi.in/api/v1/getprices?token=${process.env.NSE_API_KEY}&nsecode=${stocks_string1}`);
@@ -84,8 +87,9 @@ route.post("/stock", async function (req, res) {
   for(const [key ,value] of Object.entries(stock_dataj)){
       stocks.push(value);
   }
-  console.log(stocks);
+  // console.log(stocks);
   res.render("stock_price.ejs", {
+    ex_rate : ex_rate,
     stocks: stock_name,
     price: stock_prices,
     stock_data : stocks,
@@ -108,15 +112,20 @@ async function getStockPrice(stock) {
   });
 }
 
+async function exchangeRate(){
+  var data = axios.get(`https://exchange-rates.abstractapi.com/v1/convert?base=usd&target=inr&api_key=${process.env.EX_RATE_API_KEY}`)
+  return data;
+}
+
 
 var to_buy_stock;
 // ------------------------------------------------------------------------------------
 route.get("/stock/:word/:list_number", function (req, res) {
-  console.log(Number(stock_prices[parseInt(Number(req.params.list_number))].c));
+  // console.log(Number(stock_prices[parseInt(Number(req.params.list_number))].c));
   to_buy_stock = parseInt(Number(req.params.list_number));
   res.render("add_stock.ejs", {
     company_name: req.params.word,
-    price: Number(stock_prices[parseInt(Number(req.params.list_number))].c),
+    price: parseFloat((stock_prices[parseInt(Number(req.params.list_number))].c))*ex_rate,
     stock_code: parseInt(Number(req.params.list_number)),
     purse: purse_amount,
     stock_type : "us"

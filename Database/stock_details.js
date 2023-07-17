@@ -11,12 +11,14 @@ const stock_data = {
     date : String,
     time : String,
     money_invested :mongoose.Decimal128,
-    price : mongoose.Decimal128
+    price : mongoose.Decimal128,
+    stop_loss: mongoose.Decimal128,
+    stop_profit: mongoose.Decimal128,
 }
-const stockSchema = new mongoose.Schema(stock_data);
+// const stockSchema = new mongoose.Schema(stock_data);
 
-stockSchema.plugin(passportLocalMongoose);
-stockSchema.plugin(findOrCreate);
+// stockSchema.plugin(passportLocalMongoose);
+// stockSchema.plugin(findOrCreate);
 
 const stock_type = {
     nse : [stock_data],
@@ -24,8 +26,8 @@ const stock_type = {
     us_stocks : [stock_data]
 }
 
-const stock_type_schema = new mongoose.Schema(stock_type);
-stock_type_schema.plugin(passportLocalMongoose);
-stock_type_schema.plugin(findOrCreate);
+// const stock_type_schema = new mongoose.Schema(stock_type);
+// stock_type_schema.plugin(passportLocalMongoose);
+// stock_type_schema.plugin(findOrCreate);
 
-module.exports = stock_type_schema;
+module.exports = stock_type;

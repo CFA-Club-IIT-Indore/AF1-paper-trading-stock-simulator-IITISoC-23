@@ -2,6 +2,7 @@ require('dotenv').config() ;
 const express= require("express");
 const bodyParser = require ("body-parser");
 const ejs =require ("ejs");
+const cron = require('node-cron');
 // const mongoose= require("./Database/mongoose");
 const findOrCreate = require("mongoose-findorcreate");
 const portfolioRouter = require("./routes/portfolio");
@@ -16,6 +17,9 @@ const us_stocksRouter = require("./routes/stocks");
 const add_stocksRouter = require("./routes/add_stock");
 const buy_stockRouter = require("./routes/buy_stock");
 const sell_stockRouter = require("./routes/sell_stock");
+const shortsell_Router = require("./routes/short_sell");
+const squareOFF_Router = require("./routes/square_OFF");
+const live = require("./routes/live_update");
 
 const app = express();
 const PORT = 8000;
@@ -30,11 +34,17 @@ app.use("/" , googleAuthRouter);
 app.use("/" , githubAuthRouter);
 app.use("/" , facebookAuthRouter);
 app.use("/" , nse_niftyRouter);
-app.use("/", newsRouter)
-app.use("/", us_stocksRouter)
-app.use("/", add_stocksRouter)
-app.use("/", buy_stockRouter)
-app.use("/", sell_stockRouter)
+app.use("/", newsRouter);
+app.use("/", us_stocksRouter);
+app.use("/", add_stocksRouter);
+app.use("/", buy_stockRouter);
+app.use("/", sell_stockRouter);
+app.use("/", shortsell_Router);
+app.use("/", squareOFF_Router);
+
+cron.schedule('* * * * *', async () => {
+    live();
+});
 
 app.get("/" , (req ,res)=>{
     res.render("home");

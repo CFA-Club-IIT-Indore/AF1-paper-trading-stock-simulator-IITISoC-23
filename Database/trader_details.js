@@ -5,7 +5,7 @@ const userDetails = {
     email : String ,
     username : {
         type : String ,
-        unique : true ,
+        // unique : true ,
         // required : [true , "Enter the username"]
     } ,
     password : String ,

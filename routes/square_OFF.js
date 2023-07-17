@@ -25,11 +25,6 @@ passport.deserializeUser(function(user, cb) {
     });
 });
 
-async function exchangeRate(){
-  var data = axios.get(`https://exchange-rates.abstractapi.com/v1/convert?base=usd&target=inr&api_key=${process.env.EX_RATE_API_KEY}`)
-  return data;
-}
-
 async function getStockPrice(stock) {
     return new Promise((resolve, reject) => {
       finnhubClient.quote(stock, (error, data, response) => {
@@ -46,24 +41,28 @@ async function getStockPrice(stock) {
     return data;
   }
 
-route.post("/sell_stock" , (req ,res)=>{
+  async function exchangeRate(){
+    var data = axios.get(`https://exchange-rates.abstractapi.com/v1/convert?base=usd&target=inr&api_key=${process.env.EX_RATE_API_KEY}`)
+    return data;
+  }
+route.post("/squareOff_stock" , (req ,res)=>{
     Trader.find({username : req.user.username })
     .then(async function(data){
-      
       var arr ,his;
         var curr_price;
 
         ex_rate = await exchangeRate();
         console.log(ex_rate.data.exchange_rate);
         ex_rate = ex_rate.data.exchange_rate;
+
         if(req.body.stock_type === "us"){
-            arr = data[0].stocks_held.us_stocks;
+            arr = data[0].stocks_sold_adv.us_stocks;
             his = data[0].history.us_stocks;
             const prices = await getStockPrice(req.body.code);
             curr_price = (parseFloat(prices.c)*parseFloat(ex_rate)).toPrecision(7);
         } 
         else if(req.body.stock_type === "nse"){
-            arr = data[0].stocks_held.nse;
+            arr = data[0].stocks_sold_adv.nse;
             his = data[0].history.nse;
             var stock_data = await getdata(req.body.code);
             for(const [key ,value] of Object.entries(stock_data.data.data)){
@@ -72,8 +71,12 @@ route.post("/sell_stock" , (req ,res)=>{
         }
         console.log(curr_price);
         var quantity = parseFloat(req.body.quantity);
+        
         // console.log(curr_price , arr ,his);
         const targetObject = arr.findIndex(obj => obj.symbol === req.body.code );
+
+        var purse_amount = parseFloat(data[0].amount) + (2*parseFloat(arr[targetObject].price) - curr_price)*quantity;
+        var tot_invest =parseFloat(data[0].amount_invested) - quantity*parseFloat(arr[targetObject].price); 
         if(parseFloat(arr[targetObject].quantity) === parseFloat(req.body.quantity)){
           arr.splice(targetObject ,1);
         }else{
@@ -88,7 +91,7 @@ route.post("/sell_stock" , (req ,res)=>{
         his.push({
           stock_type : req.body.stock_type,
           symbol : req.body.code ,
-          action : "sell" ,
+          action : "square off" ,
           date : date,
           time : time,
           quantity : quantity,
@@ -97,27 +100,25 @@ route.post("/sell_stock" , (req ,res)=>{
         })
         // <------------------------------------------------------------------------------------------------------------------------------------------->
 
-        var purse_amount = parseFloat(data[0].amount) + quantity*curr_price;
-       var tot_invest =parseFloat(data[0].amount_invested) - quantity*parseFloat(arr[targetObject].price); 
         // console.log(purse_amount , tot_invest);
       if(req.body.stock_type === "us"){
-        data[0].stocks_held.us_stocks = arr;
+        data[0].stocks_sold_adv.us_stocks = arr;
         data[0].history.us_stocks = his;
-        Trader.updateOne({username : req.user.username} , {stocks_held : data[0].stocks_held ,amount : purse_amount , amount_invested : tot_invest , history : data[0].history})
+        Trader.updateOne({username : req.user.username} , {stocks_sold_adv : data[0].stocks_sold_adv ,amount : purse_amount , amount_invested : tot_invest , history : data[0].history})
         .then((response)=>{
             console.log(response.acknowledged);
         })
     }else if(req.body.stock_type === "nse"){
-        data[0].stocks_held.nse = arr;
+        data[0].stocks_sold_adv.nse = arr;
         data[0].history.nse = his;
-        Trader.updateOne({username : req.user.username} , {stocks_held : data[0].stocks_held ,amount : purse_amount , amount_invested : tot_invest , history : data[0].history})
+        Trader.updateOne({username : req.user.username} , {stocks_sold_adv : data[0].stocks_sold_adv ,amount : purse_amount , amount_invested : tot_invest , history : data[0].history})
         .then((response)=>{
             console.log(response.acknowledged);
         })
     }else{
-        data[0].stocks_held.bse = arr;
+        data[0].stocks_sold_adv.bse = arr;
         data[0].history.bse = his;
-        Trader.updateOne({username : req.user.username} , {stocks_held : data[0].stocks_held  ,amount : purse_amount , amount_invested : tot_invest , history : data[0].history})
+        Trader.updateOne({username : req.user.username} , {stocks_sold_adv : data[0].stocks_sold_adv  ,amount : purse_amount , amount_invested : tot_invest , history : data[0].history})
         .then((response)=>{
             console.log(response.acknowledged);
         })

@@ -2,13 +2,13 @@
 <h1 class="text-4xl">US Stocks</h1>
     <% for(var i=0; i<stocks.length; i++){%>
         <h1><%=stocks[i].name%></h1>
-        <p>Current price: <%=price[i].c%></p>
-        <p>Current Growth percent: <%=price[i].dp%></p>
-        <p>Change: <%=price[i].d%></p>
-        <p>High price of the day: <%=price[i].h%></p>
-        <p>Low price of the day: <%=price[i].l%></p>
-        <p>Open price : <%=price[i].o%></p>
-        <p>Previous Close price : <%=price[i].o%></p>
+        <p>Current price: <%=(parseFloat(price[i].c)*parseFloat(ex_rate)).toPrecision(7)%></p>
+        <p>Current Growth percent: <%=(parseFloat(price[i].dp)*parseFloat(ex_rate)).toPrecision(4)%></p>
+        <p>Change: <%=(parseFloat(price[i].d)*parseFloat(ex_rate)).toPrecision(4)%></p>
+        <p>High price of the day: <%=(parseFloat(price[i].h)*parseFloat(ex_rate)).toPrecision(7)%></p>
+        <p>Low price of the day: <%=(parseFloat(price[i].l)*parseFloat(ex_rate)).toPrecision(7)%></p>
+        <p>Open price : <%=(parseFloat(price[i].o)*parseFloat(ex_rate)).toPrecision(7)%></p>
+        <p>Previous Close price : <%=(parseFloat(price[i].o)*parseFloat(ex_rate)).toPrecision(7)%></p>
     <%var add_stock="/stock/"+stocks[i].symbol+"/"+i%>
     <a href="<%=add_stock%>"><button id=<%=stocks[i]%>>Buy</button></a>
     <form action="<%=add_stock%>" method="post">
@@ -26,7 +26,7 @@
             <h6>Low price of the day: <%= stock_obj.TodayLow %></h6>
             <h6>Previous Close price : <%= stock_obj.TodayClose %></h6>
             <% var add_stock = "/stock/" + stock_obj.NSECode %>
-            <a href="<%= add_stock %>"><button id= "<%= stock_obj.NSECode %>">Buy</button></a>
+            <a href="<%= add_stock %>"><button id= "<%= stock_obj.NSECode %>">Add Stocks</button></a>
         </div>
         <% }) %>
 <%- include("partials/footer")%>

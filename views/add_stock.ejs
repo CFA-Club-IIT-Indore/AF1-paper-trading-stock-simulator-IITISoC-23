@@ -3,12 +3,76 @@
 <span>Current Price: </span>
 <span><%=price%></span>
 <h2>Remaining Amount:<%=purse%></h2>
-<form action="/buy" method="post">
+<form action="/buy" method="post" >
     <input type="hidden" name = "company_name" value = "<%=company_name%>">
-    <input type="hidden" name = "price" value = <%=price%>>
+    <input type="hidden" id="price" name = "price" value = <%=price%>>
     <input type="hidden" name = "purse" value = <%=purse%>>
     <input type="number" name="numberOfStocks">
     <input type="hidden" name ="stock_type" value="<%= stock_type %>">
+    <label for="stop_loss1">Stop Loss (Δ)</label>
+    <input type = "number"  id="stop_loss1" name="stop_loss1" min="0.0" value="" onkeypress="loss_del()" onkeyup="loss_del()" step=".0000000001">
+    <label for="stop_loss2">Stop Loss (%)</label>
+    <input type = "number" name="stop_loss2" min="0.0"  id="stop_loss2" value="" onkeypress="loss_per()" onkeyup="loss_per()" step=".0000000001">
+    <label for="stop_profit1">Stop profit (Δ)</label>
+    <input type = "number" name="stop_profit1" min="0.0"  id="stop_profit1" value="" onkeypress="profit_del()" onkeyup="profit_del()" step=".0000000001">
+    <label for="stop_profit2">Stop profit (%)</label>
+    <input type = "number" name="stop_profit2" min="0.0"  id="stop_profit2" value="" onkeypress="profit_per()" onkeyup="profit_per()" step=".0000000001">
     <button name="<%=stock_code%>" >Buy!</button>
 </form>
+<br>
+<form action="/short_sell" method="post">
+    <input type="hidden" name = "company_name" value = "<%=company_name%>">
+    <input type="hidden" id="price" name = "price" value = <%=price%>>
+    <input type="hidden" name = "purse" value = <%=purse%>>
+    <input type="number" name="numberOfStocks">
+    <input type="hidden" name ="stock_type" value="<%= stock_type %>">
+    <label for="stop_loss1">Stop Loss (Δ)</label>
+    <input type = "number" name="stop_loss1" min="0.0"  id="astop_loss1" value="" onkeypress="aloss_del()" onkeyup="aloss_del()" step=".0000000001">
+    <label for="stop_loss2">Stop Loss (%)</label>
+    <input type = "number" name="stop_loss2" min="0.0"  id="astop_loss2" value="" onkeypress="aloss_per()" onkeyup="aloss_per()" step=".0000000001">
+    <label for="stop_profit1">Stop profit (Δ)</label>
+    <input type = "number" name="stop_profit1" min="0.0"  id="astop_profit1" value="" onkeypress="aprofit_del()" onkeyup="aprofit_del()" step=".0000000001">
+    <label for="stop_profit2">Stop profit (%)</label>
+    <input type = "number" name="stop_profit2" min="0.0"  id="astop_profit2" value="" onkeypress="aprofit_per()" onkeyup="aprofit_per()" step=".0000000001">
+    <button name="<%=stock_code%>" >Short Sell</button>
+</form>
+
+<script>
+    var a = document.getElementById("stop_loss1");
+    var b = document.getElementById("stop_loss2");
+    var c = document.getElementById("stop_profit1");
+    var d = document.getElementById("stop_profit2");
+    var e = parseFloat(document.getElementById("price").value); 
+    var f = document.getElementById("astop_loss1");
+    var g = document.getElementById("astop_loss2");
+    var h = document.getElementById("astop_profit1");
+    var i = document.getElementById("astop_profit2");
+
+    function loss_del(){
+        b.value = parseFloat((((a.value)/e)*100).toPrecision(4));
+    }
+    function loss_per(){
+        a.value = parseFloat(((b.value/100)*e).toPrecision(6));
+    }
+    function aloss_del(){
+        g.value = parseFloat((((f.value)/e)*100).toPrecision(4));
+    }
+    function aloss_per(){
+        f.value = parseFloat(((g.value/100)*e).toPrecision(6));
+    }
+    function profit_del(){
+        d.value = parseFloat((((c.value)/e)*100).toPrecision(4));
+    }
+    function profit_per(){
+        c.value = parseFloat(((d.value/100)*e).toPrecision(6));
+    }
+    function aprofit_del(){
+        i.value = parseFloat((((h.value)/e)*100).toPrecision(4));
+    }
+    function aprofit_per(){
+        h.value = parseFloat(((i.value/100)*e).toPrecision(6));
+    }
+
+</script>
+
 <%- include ("partials/footer") %>
