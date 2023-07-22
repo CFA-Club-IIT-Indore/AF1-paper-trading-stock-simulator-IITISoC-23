@@ -2,11 +2,11 @@
 <h1><%=company_name%></h1>
 <span>Current Price: </span>
 <span><%=price%></span>
-<h2>Remaining Amount:<%=purse%></h2>
+
 <form action="/buy" method="post" >
     <input type="hidden" name = "company_name" value = "<%=company_name%>">
     <input type="hidden" id="price" name = "price" value = <%=price%>>
-    <input type="hidden" name = "purse" value = <%=purse%>>
+ 
     <input type="number" name="numberOfStocks">
     <input type="hidden" name ="stock_type" value="<%= stock_type %>">
     <label for="stop_loss1">Stop Loss (Δ)</label>
@@ -23,7 +23,7 @@
 <form action="/short_sell" method="post">
     <input type="hidden" name = "company_name" value = "<%=company_name%>">
     <input type="hidden" id="price" name = "price" value = <%=price%>>
-    <input type="hidden" name = "purse" value = <%=purse%>>
+  
     <input type="number" name="numberOfStocks">
     <input type="hidden" name ="stock_type" value="<%= stock_type %>">
     <label for="stop_loss1">Stop Loss (Δ)</label>

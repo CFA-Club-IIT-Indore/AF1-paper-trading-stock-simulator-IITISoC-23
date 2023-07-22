@@ -18,10 +18,12 @@
     </form>
     <%})%>
  <h1>US Stocks</h1>
- <% stocks_held.us_stocks.map((obj)=>{%>
+ <% stocks_held.us_stocks.map((obj ,index)=>{%>
     <h2><%= obj.symbol %></h2>
     <p>quantity : <%= obj.quantity %></p>
     <p>price : <%= obj.price %></p>
+    <p>current Price : <%= sh_arr[index] %></p>
+    <p>Change :<%= obj.price - sh_arr[index] %> </p>
     <p>money invested : <%= obj.money_invested %></p>
     <form action="/sell_stock" method="post">
         <input type="hidden" name="code" value ="<%= obj.symbol %>" > 
@@ -46,10 +48,12 @@
     </form>
     <%})%>
  <h1>US Stocks</h1>
- <% stocks_sold_adv.us_stocks.map((obj)=>{%>
+ <% stocks_sold_adv.us_stocks.map((obj , index)=>{%>
     <h2><%= obj.symbol %></h2>
     <p>quantity : <%= obj.quantity %></p>
     <p>price : <%= obj.price %></p>
+    <p>current Price : <%= ss_arr[index] %></p>
+    <p>Change :<%= obj.price - ss_arr[index] %> </p>
     <p>money invested : <%= obj.money_invested %></p>
     <form action="/squareOff_stock" method="post">
         <input type="hidden" name="code" value ="<%= obj.symbol %>" > 

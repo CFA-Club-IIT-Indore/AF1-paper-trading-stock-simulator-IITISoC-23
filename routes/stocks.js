@@ -48,13 +48,6 @@ var stock_prices = new Array(stock_name.length);
 stock_prices.fill({});
 var purse_amount = 1000000;
 
-// ------------------------------------------------------------------------------------
-// route.use(bodyParser.urlencoded({ extended: true }));
-// route.use(express.static("public"));
-// route.get("/", function (req, res) {
-//   res.sendFile(__dirname + "/views/get_stock.html");
-// });
-// ------------------------------------------------------------------------------------
 
 const NSEsymbols1 = [
   'ADANIPORTS','ASIANPAINT','AXISBANK','APOLLOHOSP' ,'ADANIENT', 'BAJAJ-AUTO', 'BAJFINANCE', 'BAJAJFINSV',       'BPCL', 'BHARTIARTL',      'CIPLA', 
@@ -67,38 +60,38 @@ const NSEsymbols1 = [
   const stocks_string1 = NSEsymbols1.join(',');
   const stocks_string2 = NSEsymbols2.join(',');
 
-route.post("/stock", async function (req, res) {
-  stock_prices = await Promise.all(stock_name.map(getStockPrice));
+// route.post("/stock", async function (req, res) {
+//   stock_prices = await Promise.all(stock_name.map(getStockPrice));
 
-  // console.log(stock_prices);
-  ex_rate = await exchangeRate();
-  console.log(ex_rate.data.exchange_rate);
-  ex_rate = ex_rate.data.exchange_rate;
+//   // console.log(stock_prices);
+//   ex_rate = await exchangeRate();
+//   console.log(ex_rate.data.exchange_rate);
+//   ex_rate = ex_rate.data.exchange_rate;
 
-  async function getData(){
-  var stock_dataj = await axios.get(`https://api.stockmarketapi.in/api/v1/getprices?token=${process.env.NSE_API_KEY}&nsecode=${stocks_string1}`);
-  stock_dataj =stock_dataj.data.data;
-  var stocks =[];
-  for(const [key ,value] of Object.entries(stock_dataj)){
-      stocks.push(value);
-  }
-  stock_dataj = await axios.get(`https://api.stockmarketapi.in/api/v1/getprices?token=${process.env.NSE_API_KEY}&nsecode=${stocks_string2}`);
-  stock_dataj =stock_dataj.data.data;
-  for(const [key ,value] of Object.entries(stock_dataj)){
-      stocks.push(value);
-  }
-  // console.log(stocks);
-  res.render("stock_price.ejs", {
-    ex_rate : ex_rate,
-    stocks: stock_name,
-    price: stock_prices,
-    stock_data : stocks,
-  });
-}
-getData();
+//   async function getData(){
+//   // var stock_dataj = await axios.get(`https://api.stockmarketapi.in/api/v1/getprices?token=${process.env.NSE_API_KEY}&nsecode=${stocks_string1}`);
+//   // stock_dataj =stock_dataj.data.data;
+//   // var stocks =[];
+//   // for(const [key ,value] of Object.entries(stock_dataj)){
+//   //     stocks.push(value);
+//   // }
+//   // stock_dataj = await axios.get(`https://api.stockmarketapi.in/api/v1/getprices?token=${process.env.NSE_API_KEY}&nsecode=${stocks_string2}`);
+//   // stock_dataj =stock_dataj.data.data;
+//   // for(const [key ,value] of Object.entries(stock_dataj)){
+//   //     stocks.push(value);
+//   // }
+//   // console.log(stocks);
+//   res.render("stock_price.ejs", {
+//     ex_rate : ex_rate,
+//     stocks: stock_name,
+//     price: stock_prices,
+//     // stock_data : stocks,
+//   });
+// }
+// getData();
 
   
-});
+// });
 
 async function getStockPrice(stock) {
   return new Promise((resolve, reject) => {
@@ -120,17 +113,17 @@ async function exchangeRate(){
 
 var to_buy_stock;
 // ------------------------------------------------------------------------------------
-route.get("/stock/:word/:list_number", function (req, res) {
-  // console.log(Number(stock_prices[parseInt(Number(req.params.list_number))].c));
-  to_buy_stock = parseInt(Number(req.params.list_number));
-  res.render("add_stock.ejs", {
-    company_name: req.params.word,
-    price: parseFloat((stock_prices[parseInt(Number(req.params.list_number))].c))*ex_rate,
-    stock_code: parseInt(Number(req.params.list_number)),
-    purse: purse_amount,
-    stock_type : "us"
-  });
-});
+// route.get("/stock/:word/:list_number", function (req, res) {
+//   // console.log(Number(stock_prices[parseInt(Number(req.params.list_number))].c));
+//   to_buy_stock = parseInt(Number(req.params.list_number));
+//   res.render("add_stock.ejs", {
+//     company_name: req.params.word,
+//     price: parseFloat((stock_prices[parseInt(Number(req.params.list_number))].c))*ex_rate,
+//     stock_code: parseInt(Number(req.params.list_number)),
+//     purse: purse_amount,
+//     stock_type : "us"
+//   });
+// });
 // ------------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------------

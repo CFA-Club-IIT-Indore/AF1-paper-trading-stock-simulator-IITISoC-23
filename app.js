@@ -20,6 +20,7 @@ const sell_stockRouter = require("./routes/sell_stock");
 const shortsell_Router = require("./routes/short_sell");
 const squareOFF_Router = require("./routes/square_OFF");
 const live = require("./routes/live_update");
+const load_data = require('./routes/load_data');
 
 const app = express();
 const PORT = 8000;
@@ -42,14 +43,18 @@ app.use("/", sell_stockRouter);
 app.use("/", shortsell_Router);
 app.use("/", squareOFF_Router);
 
-cron.schedule('* * * * *', async () => {
+var stocks_data;
+cron.schedule('1,5,10,15,20,25,30,35,40,45,50,55 * * * *', async () => {
     live();
 });
 
-app.get("/" , (req ,res)=>{
+
+app.get("/" , async (req ,res)=>{
     res.render("home");
 })
 
 app.listen(PORT , ()=>{
     console.log("server running at http://localhost:8000");
 })
+
+

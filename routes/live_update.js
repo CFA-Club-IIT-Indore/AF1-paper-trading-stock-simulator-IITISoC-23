@@ -2,7 +2,7 @@ const Trader = require("../Database/Trader");
 const axios= require("axios");
 const finnhub = require("finnhub");
 const api_key = finnhub.ApiClient.instance.authentications["api_key"];
-api_key.apiKey = "ci9hic1r01qtqvvf2510ci9hic1r01qtqvvf251g"; // Replace this
+api_key.apiKey = "citrp2hr01qu27mo32g0citrp2hr01qu27mo32gg"; // Replace this
 const finnhubClient = new finnhub.DefaultApi();
 
 // <------------------------------------------------------------------------------------------------------>
@@ -37,6 +37,26 @@ const stock_name = [
     { symbol: "QCOM", name: "QUALCOMM Incorporated" },
     { symbol: "AXP", name: "American Express Company" },
     { symbol: "SONY", name: "Sony Group Corporations" },
+    { symbol: "GILD", name: "Gilead Sciences, Inc." },
+    { symbol: "ADP", name: "Automatic Data Processing, Inc.	" },
+    { symbol: "ADI", name: "Analog Devices, Inc.	" },
+    { symbol: "VRTX", name: "Vertex Pharmaceuticals Incorporated	" },
+    { symbol: "LRCX", name: "Lam Research Corporation	" },
+    { symbol: "PYPL", name: "PayPal Holdings, Inc.	" },
+    { symbol: "REGN	", name: "Regeneron Pharmaceuticals, Inc.	" },
+    { symbol: "EQIX", name: "EQIX" },
+    { symbol: "PANW", name: "Palo Alto Networks, Inc.	" },
+    { symbol: "ATVI", name: "Activision Blizzard, Inc.	" },
+    { symbol: "MU", name: "Micron Technology, I" },
+    { symbol: "SNPS", name: "Synopsys, Inc." },
+    { symbol: "CME", name: "CME Group Inc." },
+    { symbol: "CSX", name: "CSX Corporation" },
+    { symbol: "NTES", name: "NetEase, Inc." },
+    { symbol: "FTNT", name: "Fortinet, Inc." },
+    { symbol: "CHTR", name: "Charter Communicati" },
+    { symbol: "MELI	", name: "MercadoLibre, Inc." },
+    { symbol: "MAR", name: "Marriott Internationa" },
+    { symbol: "JD", name: "JD.com, Inc." },
   ];
   
   const NSEsymbols1 = [
@@ -84,7 +104,7 @@ const stock_name = [
     console.log("hello");
     // nse_stocks = await getData();
     // console.log(nse_stocks);
-    const res = await getData();
+    // const res = await getData();
     // console.log(nse_stocks);
   
     ex_rate = await exchangeRate();
