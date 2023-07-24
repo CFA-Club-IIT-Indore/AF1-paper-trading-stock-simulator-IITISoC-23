@@ -1,42 +1,181 @@
-<%- include ("partials/header") %>
-<h1><%=company_name%></h1>
-<span>Current Price: </span>
-<span><%=price%></span>
+<%- include('partials/header') %>
+  <style>
+    .form-container {
+      max-width: 600px;
+      padding: 20px;
+      border-radius: 10px;
+      justify-content: center;
+      align-items: center;
+    }
+    .container{
+      padding-top:100px;
+    }
 
-<form action="/buy" method="post" >
-    <input type="hidden" name = "company_name" value = "<%=company_name%>">
-    <input type="hidden" id="price" name = "price" value = <%=price%>>
- 
-    <input type="number" name="numberOfStocks">
-    <input type="hidden" name ="stock_type" value="<%= stock_type %>">
-    <label for="stop_loss1">Stop Loss (Δ)</label>
-    <input type = "number"  id="stop_loss1" name="stop_loss1" min="0.0" value="" onkeypress="loss_del()" onkeyup="loss_del()" step=".0000000001">
-    <label for="stop_loss2">Stop Loss (%)</label>
-    <input type = "number" name="stop_loss2" min="0.0"  id="stop_loss2" value="" onkeypress="loss_per()" onkeyup="loss_per()" step=".0000000001">
-    <label for="stop_profit1">Stop profit (Δ)</label>
-    <input type = "number" name="stop_profit1" min="0.0"  id="stop_profit1" value="" onkeypress="profit_del()" onkeyup="profit_del()" step=".0000000001">
-    <label for="stop_profit2">Stop profit (%)</label>
-    <input type = "number" name="stop_profit2" min="0.0"  id="stop_profit2" value="" onkeypress="profit_per()" onkeyup="profit_per()" step=".0000000001">
-    <button name="<%=stock_code%>" >Buy!</button>
-</form>
-<br>
-<form action="/short_sell" method="post">
-    <input type="hidden" name = "company_name" value = "<%=company_name%>">
-    <input type="hidden" id="price" name = "price" value = <%=price%>>
+    .outer-box {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px; 
+      max-width: 80%;
+    }
+    
+    .form-control:hover {
+      border-color: #80bdff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) ;
+    }
+
+    .btn-primary:hover {
+      background-color: #007bff;
+    }
+    .form-heading {
+      text-align: left;
+      border-bottom: 2px solid #007bff;
+      
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .card{
+      background-color: rgba(0, 0, 0, 0.5);
+      border:5px
+    }
+    .form-control {
+      background-color: #121212;
+      color: #fff;
+      border: 1px solid #555;
+    }
+
+    .form-control:focus {
+      background-color: #444;
+      color: #fff;
+      border-color: #777;
+      box-shadow: none;
+    }
+    @media (max-width: 768px) {
+      body {
+        background-color: #28282B;
+        background-image:none;
+      }
+      outer-box{
+        background-color: #28282B;
+      }
+    }
+    @media (min-width: 768px) {
+      body {
+        height: 100%;
+          margin: 0;
+          position:relative;
+          background-image: url('https://img.freepik.com/premium-photo/stock-market-forex-trading-graph_73426-194.jpg');
+          background-size: cover;
+          background-position: center;
+          background-repeat:no-repeat;
+          height: 100%;
+          background-attachment: fixed;
+      }
+    }
+  </style>
+
+
+  <div class="bg-image full-height">
+    
+      
+  <div class="row">
+          
+  <div class="col-md-6">
+    <div class="container full-height d-flex justify-content-center align-items-center">
+        
+      <div class="outer-box">
+        <div class="form-container">
+          <div class="card text-white">
+            <div class="card-body ">
+              <form action="/buy" method="post">
+                <div class="form-heading">
+                    <h4>Buy | <%=company_name%></h4>
+                    <h6>current price : <%=price%></h6>
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">Quantity</span>
+                    <input min="0" max="<%=max_quant%>" type="number" id="floatingInput" class="form-control" />
+                  </div>
+                  
+                  <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="stop_loss1">Stop Loss (Δ)</label>
+                    <input type = "number" name="stop_loss1" class="form-control" min="0.0"  id="stop_loss1" value="" onkeypress="aloss_del()" onkeyup="aloss_del()" step=".0000000001">
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="stop_loss2">Stop Loss (%)</label>
+                    <input type = "number" name="stop_loss2" class="form-control" min="0.0"  id="stop_loss2" value="" onkeypress="aloss_per()" onkeyup="aloss_per()" step=".0000000001">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="stop_profit1">Stop profit (Δ)</label>
+                    <input type = "number" name="stop_profit1" class="form-control" min="0.0"  id="stop_profit1" value="" onkeypress="aprofit_del()" onkeyup="aprofit_del()" step=".0000000001" >
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="stop_profit2">Stop profit (%)</label>
+                    <input type = "number" name="stop_profit2" min="0.0" class="form-control" id="stop_profit2" value="" onkeypress="aprofit_per()" onkeyup="aprofit_per()" step=".0000000001">
+                  </div>
+                </div>
+                <button type="submit" name="<%=stock_code%>" class="btn btn-primary mt-3">Buy</button>
+                <button type="button" class="btn btn-outline-primary mt-3" href="/portfolio">Cancel</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+
+    
+    <div class="col-md-6">
+      <div class="container full-height d-flex justify-content-center align-items-center">
+      
+      
+      <div class="outer-box">
+        <div class="form-container">
+          <div class="card text-white">
+            <div class="card-body ">
+              <form action="/short_sell" method="post">
+                <div class="form-heading">
+                    <h4>Short Sell | <%=company_name%></h4>
+                    <h6>current price : <%=price%></h6>
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">Quantity</span>
+                    <input min="0" max="<%=max_quant%>" type="number" id="typeNumber" class="form-control" />
+                    
+                  </div>
+                
+                  <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="stop_loss1">Stop Loss (Δ)</label>
+                    <input type = "number" name="stop_loss1" class="form-control" min="0.0"  id="astop_loss1" value="" onkeypress="aloss_del()" onkeyup="aloss_del()" step=".0000000001">
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="stop_loss2">Stop Loss (%)</label>
+                    <input type = "number" name="stop_loss2" class="form-control" min="0.0"  id="astop_loss2" value="" onkeypress="aloss_per()" onkeyup="aloss_per()" step=".0000000001">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="stop_profit1">Stop profit (Δ)</label>
+                    <input type = "number" name="stop_profit1" class="form-control" min="0.0"  id="astop_profit1" value="" onkeypress="aprofit_del()" onkeyup="aprofit_del()" step=".0000000001" >
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="stop_profit2">Stop profit (%)</label>
+                    <input type = "number" name="stop_profit2" min="0.0" class="form-control" id="astop_profit2" value="" onkeypress="aprofit_per()" onkeyup="aprofit_per()" step=".0000000001">
+                  </div>
+                </div>
+                <button type="submit" name="<%=stock_code%>" class="btn btn-primary mt-3">Short Sell</button>
+                <button type="button" class="btn btn-outline-primary mt-3" href="/portfolio">Cancel</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
   
-    <input type="number" name="numberOfStocks">
-    <input type="hidden" name ="stock_type" value="<%= stock_type %>">
-    <label for="stop_loss1">Stop Loss (Δ)</label>
-    <input type = "number" name="stop_loss1" min="0.0"  id="astop_loss1" value="" onkeypress="aloss_del()" onkeyup="aloss_del()" step=".0000000001">
-    <label for="stop_loss2">Stop Loss (%)</label>
-    <input type = "number" name="stop_loss2" min="0.0"  id="astop_loss2" value="" onkeypress="aloss_per()" onkeyup="aloss_per()" step=".0000000001">
-    <label for="stop_profit1">Stop profit (Δ)</label>
-    <input type = "number" name="stop_profit1" min="0.0"  id="astop_profit1" value="" onkeypress="aprofit_del()" onkeyup="aprofit_del()" step=".0000000001">
-    <label for="stop_profit2">Stop profit (%)</label>
-    <input type = "number" name="stop_profit2" min="0.0"  id="astop_profit2" value="" onkeypress="aprofit_per()" onkeyup="aprofit_per()" step=".0000000001">
-    <button name="<%=stock_code%>" >Short Sell</button>
-</form>
-
 <script>
     var a = document.getElementById("stop_loss1");
     var b = document.getElementById("stop_loss2");
@@ -74,5 +213,4 @@
     }
 
 </script>
-
-<%- include ("partials/footer") %>
+<%- include('partials/footer') %>
