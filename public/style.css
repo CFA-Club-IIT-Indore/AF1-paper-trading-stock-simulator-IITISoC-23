@@ -18,5 +18,222 @@
     flex-wrap: wrap;
 }
 
+.nav{
+    margin: 16px;
+    padding: 0;
+    font-family: 'Jost', sans-serif;
+    width: 95vw;
+	/* background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e); */
+}
+.navbar{
+    width: 90vw;
+    border-radius: 5px;
+}
+.navbar ul{
+ overflow: auto;
+}
+ul {
+    width: 100%;
+    height: 50px;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 18px 0;
+    background-size: 400% 400%;
+    background-image: linear-gradient(-45deg, #ff5959, #ff4040, #ff0d6e, #ff8033,#d74177);
+    animation: 12s myGradient infinite;
+    border-radius: 40px;
+    box-shadow: 3px 3px 20px #1d1a1a;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  @keyframes myGradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    
+    50%{
+      background-position: 100% 50%;
+    }
+    
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+.navbar a{
+    text-decoration: none;
+    color:  #fff;
+    font-weight: lighter;
+    letter-spacing: 1px;
+    opacity: 0.9;
+}
+.navbar li{
+    float: left;
+    list-style: none;
+    padding: 2px 50px;
+    padding-top: 10px;
+ margin: 4px 6px;
+ font-size: large;
+}
+.navbar a{
+ color: aliceblue;
+}
+.navbar a:hover{
+    color: #fff;
+    animation: 1.5s myFlash linear infinite;
+    text-shadow: 2px 2px 30px #fff;
+    transition: 2s;
+}
+@keyframes myFlash {
+    0% {
+      opacity: 1;
+      text-shadow: transparent;
+    }
+    
+    50% {
+      opacity: .1;
+    }
+    
+    100% {
+      opacity: 1;
+      text-shadow: 2px 2px 20px #fff;
+    }
+  }
+ 
 
+  @media(max-width: 767px) {
+/*     
+    .navbar {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%;
+    } */
+    
+    ul {
+      padding: 15px 0;
+    }
+    
+    
+    li a {
+      padding: 34px 34px;
+      font-size: 23px;
+      font-weight: lighter;
+    }
+}
+.dropdown  a{
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    background: tomato;
+    width: 114px;
+    text-align: center;
+    font-family: verdana;
+    line-height: 30px;
+    display: none;
+  
+  }
+  .dropdown {
+    background: red;
+    width: 114px;
+    height: 250px;
+    color: #fff;
+    font-family: verdana;
+    padding: 56px 0px;
+    height: 200px;
+    border-radius: 5px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: bold;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: -28%;
+    left: 92%;
+    transition: 2s;
+    margin-top: 400px;
+    background-size: 400% 400%;
+    background-image: linear-gradient(-45deg, #ff0d0d, #ff0d6e, #ff3d0d, #ffff00);
+    animation: myLineargradient 6s infinite;
+    box-shadow: 2px 3px 20px #ff1700;
+    visibility: hidden;
+  }
+  
+  @keyframes myLineargradient {
+    0% {
+      background-position: 0% 50%;
+      box-shadow: 2px 3px 20px #ff1700;
+    }
+    
+    50% {
+      background-position: 100% 50%;
+       box-shadow: none;
+    }
+    
+    100% {
+      background-position: 0% 50%;
+       box-shadow: 2px 3px 20px #ff1700;
+    }
+  }
+  .drop1 {
+    cursor: pointer;
+    text-shadow: 1px 2px 18px #fff;
+    transition: 2s;
+    margin-top: -5px;
+  }
+  
+  .drop2 {
+    cursor: pointer;
+    text-shadow: 1px 2px 18px #fff;
+    transition: 2s;
+    margin-top: -5px;
+  }
+  
+  .us_head{
+    text-shadow: 3px 2px 5px #ffaf3fc3 ;
+  }
 
+  body {
+	background: linear-gradient(-45deg, #020e4c, #070218, #031745, #220648);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+    color: white;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+.prices{
+    background-color: rgba(207, 205, 205, 0.317);
+    margin: 40px;
+    padding-top: 15px;
+    border-radius: 20px;
+    border: rgb(160, 157, 157) 3px solid;
+
+}
+.prices:hover{
+    border: white 3px solid;
+    box-shadow: -4px -16px 84px 39px rgba(147, 145, 136, 0.473),
+25px 0px 20px -20px rgba(0, 0, 0, 0.45),
+0px 25px 20px -20px rgba(0,0,0,0.45),
+-25px 0px 20px -20px rgba(0,0,0,0.45);
+}
+
+.add_stock{
+    background-image: linear-gradient(-45deg, #ff5959, #ff8033,#d74177);
+    animation: 12s myGradient infinite;
+    width: 100%;
+    border-radius: 20px;
+    text-shadow: 0 3px 3px black;
+}
+.add_heading{
+    text-shadow: 0 3px 3px black;
+}

@@ -23,6 +23,7 @@ passport.deserializeUser(function(user, cb) {
 
 
 route.post("/buy", function (req, res) {
+    console.log(req.body);
     
     var arr ,his;
     var purse_amount;

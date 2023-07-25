@@ -1,4 +1,8 @@
 <%- include('partials/header') %>
+
+<header class="nav">
+  <%- include ("navbar")  %>
+</header>
   <style>
     .form-container {
       max-width: 600px;
@@ -72,6 +76,7 @@
     }
   </style>
 
+<input type ="hidden" id="price_now" value =<%=  price %>>
 
   <div class="bg-image full-height">
     
@@ -86,33 +91,37 @@
           <div class="card text-white">
             <div class="card-body ">
               <form action="/buy" method="post">
+                <input type="hidden" name = "company_name" value = "<%=company_name%>">
+                <input type="hidden" id="price" name = "price" value = <%=price%>>
+             
+                <input type="hidden" name ="stock_type" value="<%= stock_type %>">
                 <div class="form-heading">
                     <h4>Buy | <%=company_name%></h4>
                     <h6>current price : <%=price%></h6>
                   </div>
                   <div class="input-group mb-3">
                     <span class="input-group-text">Quantity</span>
-                    <input min="0" max="<%=max_quant%>" type="number" id="floatingInput" class="form-control" />
+                    <input min="0"  type="number" id="floatingInput" name = "numberOfStocks" class="form-control" />
                   </div>
                   
                   <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="stop_loss1">Stop Loss (Δ)</label>
-                    <input type = "number" name="stop_loss1" class="form-control" min="0.0"  id="stop_loss1" value="" onkeypress="aloss_del()" onkeyup="aloss_del()" step=".0000000001">
+                    <input type = "number" name="stop_loss1" class="form-control" min="0.0"  id="stop_loss1" value="" onkeypress="loss_del()" onkeyup="loss_del()" step=".0000000001">
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="stop_loss2">Stop Loss (%)</label>
-                    <input type = "number" name="stop_loss2" class="form-control" min="0.0"  id="stop_loss2" value="" onkeypress="aloss_per()" onkeyup="aloss_per()" step=".0000000001">
+                    <input type = "number" name="stop_loss2" class="form-control" min="0.0"  id="stop_loss2" value="" onkeypress="loss_per()" onkeyup="loss_per()" step=".0000000001">
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="stop_profit1">Stop profit (Δ)</label>
-                    <input type = "number" name="stop_profit1" class="form-control" min="0.0"  id="stop_profit1" value="" onkeypress="aprofit_del()" onkeyup="aprofit_del()" step=".0000000001" >
+                    <input type = "number" name="stop_profit1" class="form-control" min="0.0"  id="stop_profit1" value="" onkeypress="profit_del()" onkeyup="profit_del()" step=".0000000001" >
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="stop_profit2">Stop profit (%)</label>
-                    <input type = "number" name="stop_profit2" min="0.0" class="form-control" id="stop_profit2" value="" onkeypress="aprofit_per()" onkeyup="aprofit_per()" step=".0000000001">
+                    <input type = "number" name="stop_profit2" min="0.0" class="form-control" id="stop_profit2" value="" onkeypress="profit_per()" onkeyup="profit_per()" step=".0000000001">
                   </div>
                 </div>
                 <button type="submit" name="<%=stock_code%>" class="btn btn-primary mt-3">Buy</button>
@@ -135,13 +144,17 @@
           <div class="card text-white">
             <div class="card-body ">
               <form action="/short_sell" method="post">
+                <input type="hidden" name = "company_name" value = "<%=company_name%>">
+    <input type="hidden"  name = "price" value = <%=price%>>
+  
+    <input type="hidden" name ="stock_type" value="<%= stock_type %>">
                 <div class="form-heading">
                     <h4>Short Sell | <%=company_name%></h4>
                     <h6>current price : <%=price%></h6>
                   </div>
                   <div class="input-group mb-3">
                     <span class="input-group-text">Quantity</span>
-                    <input min="0" max="<%=max_quant%>" type="number" id="typeNumber" class="form-control" />
+                    <input min="0" type="number" id="typeNumber" name = "numberOfStocks" class="form-control" />
                     
                   </div>
                 
@@ -181,13 +194,14 @@
     var b = document.getElementById("stop_loss2");
     var c = document.getElementById("stop_profit1");
     var d = document.getElementById("stop_profit2");
-    var e = parseFloat(document.getElementById("price").value); 
+    var e = parseFloat(document.getElementById("price_now").value); 
     var f = document.getElementById("astop_loss1");
     var g = document.getElementById("astop_loss2");
     var h = document.getElementById("astop_profit1");
     var i = document.getElementById("astop_profit2");
 
     function loss_del(){
+
         b.value = parseFloat((((a.value)/e)*100).toPrecision(4));
     }
     function loss_per(){

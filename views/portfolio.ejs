@@ -1,4 +1,8 @@
 <%- include('partials/header') %>
+
+<header class="nav">
+    <%- include ("navbar")  %>
+</header>
  <h1>You are logged in</h1>
  <a class="btn btn-light btn-lg" href="/logout" role="button">Log Out</a>
  <h1>Amount reamaining : <%= amount%></h1>
@@ -13,7 +17,7 @@
     <form action="/sell_stock" method="post">
         <input type="hidden" name="code" value ="<%= obj.symbol %>" > 
         <input type="hidden" name="stock_type" value="nse">
-        <input type="number" name="quantity" max="<%= obj.quantity %>" style ="border: 2px solid black;" min="0"> 
+        <input type="number" value="0" name="quantity" min="0" max="<%= obj.quantity %>" style ="border: 2px solid black;" min="0"> 
         <button style="background-color: rgb(133, 134, 134);">Sell</button>
     </form>
     <%})%>
@@ -28,7 +32,7 @@
     <form action="/sell_stock" method="post">
         <input type="hidden" name="code" value ="<%= obj.symbol %>" > 
         <input type="hidden" name="stock_type" value="us">
-        <input type="number" name="quantity" max="<%= obj.quantity %>" style ="border: 2px solid black;" min="0"> 
+        <input type="number" value="0" min="0" name="quantity" max="<%= obj.quantity %>" style ="border: 2px solid black;" min="0"> 
         <button style="background-color: rgb(141, 141, 141);">Sell</button>
     </form>
     <%})%>

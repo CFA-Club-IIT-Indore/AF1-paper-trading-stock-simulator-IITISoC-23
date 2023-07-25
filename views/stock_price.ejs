@@ -1,17 +1,22 @@
 <%- include("partials/header")%>
-<h1 class="text-4xl">US Stocks</h1>
+<header class="nav">
+    <%- include ("navbar")  %>
+</header>
+<h1 class="text-4xl text-center text-orange-300 font-bold us_head">US Stocks</h1>
     <% for(var i=0; i<stocks.length; i++){%>
-        <h1><%=stocks[i].name%></h1>
-        <p>Current price: <%=(parseFloat(price[i].c)*parseFloat(ex_rate)).toPrecision(7)%></p>
-        <p>Current Growth percent: <%=(parseFloat(price[i].dp)*parseFloat(ex_rate)).toPrecision(4)%></p>
-        <p>Change: <%=(parseFloat(price[i].d)*parseFloat(ex_rate)).toPrecision(4)%></p>
-        <p>High price of the day: <%=(parseFloat(price[i].h)*parseFloat(ex_rate)).toPrecision(7)%></p>
-        <p>Low price of the day: <%=(parseFloat(price[i].l)*parseFloat(ex_rate)).toPrecision(7)%></p>
-        <p>Open price : <%=(parseFloat(price[i].o)*parseFloat(ex_rate)).toPrecision(7)%></p>
-        <p>Previous Close price : <%=(parseFloat(price[i].o)*parseFloat(ex_rate)).toPrecision(7)%></p>
+    <div class="prices">
+        <h1 class="text-2xl text-center text-red-500 font-bold add_heading"><%=stocks[i].name%></h1>
+        <p class="text-gray-300 font-semibold pl-3 pb-1">Current price: <span class="text-yellow-200"><%=(parseFloat(price[i].c)*parseFloat(ex_rate)).toPrecision(7)%></span></p>
+        <p class="text-gray-300 font-semibold pl-3 pb-1">Current Growth percent: <span class="text-yellow-200"><%=(parseFloat(price[i].dp)*parseFloat(ex_rate)).toPrecision(4)%></span></p>
+        <p class="text-gray-300 font-semibold pl-3 pb-1">Change: <span class="text-yellow-200"><%=(parseFloat(price[i].d)*parseFloat(ex_rate)).toPrecision(4)%></span></p>
+        <p class="text-gray-300 font-semibold pl-3 pb-1">High price of the day: <span class="text-yellow-200"><%=(parseFloat(price[i].h)*parseFloat(ex_rate)).toPrecision(7)%></span></p>
+        <p class="text-gray-300 font-semibold pl-3 pb-1">Low price of the day: <span class="text-yellow-200"><%=(parseFloat(price[i].l)*parseFloat(ex_rate)).toPrecision(7)%></span></p>
+        <p class="text-gray-300 font-semibold pl-3 pb-1">Open price : <span class="text-yellow-200"><%=(parseFloat(price[i].o)*parseFloat(ex_rate)).toPrecision(7)%></span></p>
+        <p class="text-gray-300 font-semibold pl-3 pb-3">Previous Close price : <span class="text-yellow-200"><%=(parseFloat(price[i].o)*parseFloat(ex_rate)).toPrecision(7)%></span></p>
     <%var add_stock="/stock/"+stocks[i].symbol+"/"+i%>
-    <a href="<%=add_stock%>"><button id=<%=stocks[i]%>>Buy</button></a>
+    <a href="<%=add_stock%>" ><button id=<%=stocks[i]%> class="add_stock p-1 font-bold text-white text-xl">ADD STOCK</button></a>
     <form action="<%=add_stock%>" method="post">
     </form>
+    </div>
     <%}%>
 <%- include("partials/footer")%>
